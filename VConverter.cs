@@ -69,7 +69,7 @@ namespace VConverter
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public static Type GetTypeInfo(object value)
+		public static Type? GetTypeInfo(object value)
 		{
 			return IsComObject(value) ? null : value?.GetType();
 		}
@@ -299,8 +299,24 @@ namespace VConverter
 
 		public static bool IsIterable(object value)
 		{
-			if(value is IEnumerable || value is Array || 
+			if(value is IEnumerable || value is Array)
+				return true;
+			else
+			{
+				Type? type=GetTypeInfo(value);
+				if(type is not null)
+				{
+
+				}
+			}
 		}
+
+		public static bool TypeHasMember(Type type, string name)
+		{
+			return type.GetMember(name, MemberTypes.All, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.IgnoreCase | BindingFlags.IgnoreReturn | BindingFlags.GetProperty | BindingFlags.SetProperty | BindingFlags.CreateInstance | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.DoNotWrapExceptions | BindingFlags.ExactBinding | BindingFlags.FlattenHierarchy | BindingFlags.GetField | BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.OptionalParamBinding | BindingFlags.PutDispProperty | BindingFlags.PutRefDispProperty | BindingFlags.SetField | BindingFlags.SuppressChangeType).Length>0;
+		}
+
+		public static MemberInfo[] GetTypeMemberInfo(this Type type, MemberTypes memberTypes, )
 
 	}
 }
